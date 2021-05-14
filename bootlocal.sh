@@ -1,6 +1,3 @@
-zcat ../corepure64.gz | cpio -i -H newc -d
-rm -rf tmp.cpio.gz; find ./* | cpio -H newc -o > tmp.cpio; gzip -f tmp.cpio
-
 network="eth0"
 hostip=
 netmask=
