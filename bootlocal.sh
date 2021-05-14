@@ -37,6 +37,7 @@ configure_network() {
         ifconfig $network $hostip netmask $netmask
         ifconfig $network up
     fi
+    tce-update
 }
 
 install_openssh() {
