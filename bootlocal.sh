@@ -1,3 +1,5 @@
+#!/bin/sh
+
 network="eth0"
 hostip=
 netmask=
