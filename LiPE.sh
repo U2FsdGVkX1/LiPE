@@ -14,8 +14,9 @@ elif [ -e "/usr/bin/pacman" ]; then
     pacman -Syy --noconfirm wget gzip cpio
 fi
 
+rm -rf $FILENAME $FILENAME.md5.txt bootlocal.sh
 wget $COREPURE && wget $COREPURE.md5.txt && wget $BOOTLOCAL
-md5sum -c $FILENAME.md5.txt
+md5sum -c $FILENAME.md5.txt && chmod +x bootlocal.sh
 [ $? != 0 ] && echo "Download failed!" && exit 1
 
 mkdir TinyCore
@@ -24,12 +25,11 @@ mount -o ro CorePure64-12.0.iso TinyCore
 
 cp TinyCore/boot/vmlinuz64 vmlinuz-lipe && cp TinyCore/boot/corepure64.gz initrd-lipe.gz
 umount TinyCore
-zcat initrd-lipe.gz | cpio -iD TinyCore -H newc
+cd TinyCore
+zcat ../initrd-lipe.gz | cpio -i -H newc
 [ $? != 0 ] && echo "Extracting failed!" && exit 1
 
-chmod +x bootlocal.sh
-mv bootlocal.sh TinyCore/opt
-cd TinyCore
+mv ../bootlocal.sh opt
 find . | cpio -o -H newc | gzip > ../initrd-lipe.gz
 [ $? != 0 ] && echo "Archiving failed!" && exit 1
 
