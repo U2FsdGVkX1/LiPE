@@ -36,12 +36,12 @@ find . | cpio -o -H newc | gzip > ../initrd-lipe.gz
 cd ..
 rm -rf TinyCore $FILENAME $FILENAME.md5.txt
 mv vmlinuz-lipe initrd-lipe.gz /boot
-if [ -d /boot/grub ]; then
-    grubreboot=grub-reboot
-    cfg=/boot/grub/custom.cfg
-elif [ -d /boot/grub2 ]; then
+if [ -d /boot/grub2 ]; then
     grubreboot=grub2-reboot
     cfg=/boot/grub2/custom.cfg
+elif [ -d /boot/grub ]; then
+    grubreboot=grub-reboot
+    cfg=/boot/grub/custom.cfg
 else
     echo "Unable to find the GRUB directory!"
     exit 1
@@ -51,7 +51,6 @@ dev=`df /boot | tail -1 | cut -d' ' -f1`
 uuid=`blkid -s UUID -o value $dev`
 [ -z "$uuid" ] && echo "Unable to find the boot partition!" && exit 1
 echo "menuentry 'LiPE' {
-  set root='hd0,gpt2'
   search --no-floppy --fs-uuid --set=root $uuid
   linux /boot/vmlinuz-lipe password=12345678
   initrd /boot/initrd-lipe.gz

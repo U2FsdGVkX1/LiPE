@@ -47,6 +47,8 @@ install_openssh() {
 
 install_tools() {
     install e2fsprogs
+    install dosfstools
+    install grub2-multi
     install util-linux
 }
 
