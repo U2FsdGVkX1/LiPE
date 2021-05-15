@@ -49,13 +49,12 @@ fi
 
 dev=`df /boot | tail -1 | awk '{print $1}'`
 mountpoint=`df /boot | tail -1 | awk '{print $NF}'`
-realpath=`realpath --relative-to=$mountpoint /boot`
 uuid=`blkid -s UUID -o value $dev`
 [ -z "$uuid" ] && echo "Unable to find the boot partition!" && exit 1
 echo "menuentry 'LiPE' {
   search --no-floppy --fs-uuid --set=root $uuid
-  linux /$realpath/vmlinuz-lipe password=12345678
-  initrd /$realpath/initrd-lipe.gz
+  linux /$(realpath --relative-to=$mountpoint /boot/vmlinuz-lipe) password=12345678
+  initrd /$(realpath --relative-to=$mountpoint /boot/initrd-lipe.gz)
 }
 " > $cfg
 $grubreboot LiPE

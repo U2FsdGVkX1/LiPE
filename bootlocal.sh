@@ -37,7 +37,7 @@ configure_network() {
         ifconfig $network $hostip netmask $netmask
         ifconfig $network up
     fi
-    ping -c 8 1.1.1.1
+    sleep 10s
 }
 
 install_openssh() {
