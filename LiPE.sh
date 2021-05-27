@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 BOOTLOCAL="https://raw.githubusercontent.com/U2FsdGVkX1/LiPE/main/bootlocal.sh"
 COREPURE="http://www.tinycorelinux.net/12.x/x86_64/release/CorePure64-12.0.iso"
 FILENAME=`basename $COREPURE`
