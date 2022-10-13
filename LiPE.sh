@@ -24,7 +24,7 @@ wget $COREPURE && wget $COREPURE.md5.txt && wget $BOOTLOCAL
 md5sum -c $FILENAME.md5.txt && chmod +x bootlocal.sh
 [ $? != 0 ] && echo "Download failed!" && exit 1
 
-mkdir TinyCore
+mkdir -p TinyCore
 mount -o ro "$FILENAME" TinyCore
 [ $? != 0 ] && echo "Mount failed!" && exit 1
 
