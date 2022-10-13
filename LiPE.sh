@@ -3,7 +3,10 @@
 set -e
 
 BOOTLOCAL="https://raw.githubusercontent.com/U2FsdGVkX1/LiPE/main/bootlocal.sh"
-COREPURE="http://www.tinycorelinux.net/13.x/x86_64/release/CorePure64-current.iso"
+COREPURE_VERSION="$(curl -sSL "http://www.tinycorelinux.net/13.x/x86_64/release/" | \
+                        tr -d '\r\n\t' |  grep -Po '(?<=>CorePure64-)[0-9]+(\.[0-9]+)+(?=\.iso\.md5\.txt<\/a>)' | \
+                        sort -Vr | head -n 1)"
+COREPURE="http://www.tinycorelinux.net/13.x/x86_64/release/CorePure64-${COREPURE_VERSION}.iso"
 FILENAME=`basename $COREPURE`
 
 [ $EUID -ne 0 ] && echo "This script must be run as root" && exit 1
