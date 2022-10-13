@@ -25,7 +25,7 @@ md5sum -c $FILENAME.md5.txt && chmod +x bootlocal.sh
 [ $? != 0 ] && echo "Download failed!" && exit 1
 
 mkdir TinyCore
-mount -o ro CorePure64-13.0.iso TinyCore
+mount -o ro "$FILENAME" TinyCore
 [ $? != 0 ] && echo "Mount failed!" && exit 1
 
 cp TinyCore/boot/vmlinuz64 vmlinuz-lipe && cp TinyCore/boot/corepure64.gz initrd-lipe.gz
