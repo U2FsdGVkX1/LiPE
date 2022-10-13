@@ -3,7 +3,10 @@
 set -e
 
 BOOTLOCAL="https://raw.githubusercontent.com/U2FsdGVkX1/LiPE/main/bootlocal.sh"
-COREPURE="http://www.tinycorelinux.net/13.x/x86_64/release/CorePure64-current.iso"
+COREPURE_VERSION="$(curl -sSL "http://www.tinycorelinux.net/13.x/x86_64/release/" | \
+                        tr -d '\r\n\t' |  grep -Po '(?<=>CorePure64-)[0-9]+(\.[0-9]+)+(?=\.iso\.md5\.txt<\/a>)' | \
+                        sort -Vr | head -n 1)"
+COREPURE="http://www.tinycorelinux.net/13.x/x86_64/release/CorePure64-${COREPURE_VERSION}.iso"
 FILENAME=`basename $COREPURE`
 
 [ $EUID -ne 0 ] && echo "This script must be run as root" && exit 1
@@ -21,8 +24,8 @@ wget $COREPURE && wget $COREPURE.md5.txt && wget $BOOTLOCAL
 md5sum -c $FILENAME.md5.txt && chmod +x bootlocal.sh
 [ $? != 0 ] && echo "Download failed!" && exit 1
 
-mkdir TinyCore
-mount -o ro CorePure64-13.0.iso TinyCore
+mkdir -p TinyCore
+mount -o ro "$FILENAME" TinyCore
 [ $? != 0 ] && echo "Mount failed!" && exit 1
 
 cp TinyCore/boot/vmlinuz64 vmlinuz-lipe && cp TinyCore/boot/corepure64.gz initrd-lipe.gz
