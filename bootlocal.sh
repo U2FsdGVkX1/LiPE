@@ -37,7 +37,7 @@ configure_network() {
     if [ -n "$hostip" ]; then
         ifconfig $network $hostip netmask $netmask
         ifconfig $network up
-        route add default gw $gatway $network
+        route add default gw $gateway $network
     fi
     sleep 10s
 }
