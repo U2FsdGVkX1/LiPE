@@ -11,11 +11,7 @@ FILENAME=`basename $COREPURE`
 
 [ $EUID -ne 0 ] && echo "This script must be run as root" && exit 1
 
-if [ -e "/usr/bin/apt-get" ]; then
-    apt-get update
-elif [ -e "/usr/bin/yum" ]; then
-    yum update
-elif [ -e "/usr/bin/pacman" ]; then
+if [ -e "/usr/bin/pacman" ]; then
     pacman -Syy --noconfirm wget gzip cpio
 fi
 
