@@ -3,6 +3,7 @@
 network="eth0"
 hostip=
 netmask=
+gateway=
 
 install() {
     su tc -c "tce-load -wi $@"
@@ -23,7 +24,7 @@ parse_parameter() {
             netmask=$value
             ;;
             gateway)
-            route add default gw $value $network
+            gateway=$value
             ;;
             nameserver)
             echo "nameserver $value" > /etc/resolv.conf
@@ -36,6 +37,7 @@ configure_network() {
     if [ -n "$hostip" ]; then
         ifconfig $network $hostip netmask $netmask
         ifconfig $network up
+        route add default gw $gatway $network
     fi
     sleep 10s
 }
